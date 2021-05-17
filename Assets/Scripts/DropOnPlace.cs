@@ -9,7 +9,8 @@ public class DropOnPlace : MonoBehaviour, IDropHandler
     {
         if(eventData.pointerDrag != null)
         {
-            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+            var pos = GetComponent<RectTransform>().anchoredPosition * 80;
+            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = pos;
         }
     }
 }
