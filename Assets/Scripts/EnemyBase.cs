@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
     List<RectTransform> way = new List<RectTransform>();
+    Text HealthUI;
 
     [SerializeField] int Speed = 10;
-    int wayIndex = 0;
+    [SerializeField] float Health = 10;
+        
+    public int WayIndex = 0;
     void Start()
     {
         var allWay = GameObject.FindWithTag("Way");
@@ -15,11 +19,13 @@ public class EnemyBase : MonoBehaviour
         {
             this.way.Add(way);
         }
-    }
+        HealthUI = gameObject.GetComponentsInChildren<Text>()[0];
+        HealthUI.text = Health.ToString();
 
+    }
     void Update()
     {
-        var dir = way[wayIndex].transform.position - transform.position;
+        var dir = way[WayIndex].transform.position - transform.position;
 
         if (dir.x > 0.3f)
         {
@@ -27,16 +33,24 @@ public class EnemyBase : MonoBehaviour
         }
 
         transform.Translate(dir.normalized * Time.deltaTime * Speed);
-
-
-        if (Vector3.Distance(transform.position,way[wayIndex].transform.position) < 0.3f)
+        if (Vector3.Distance(transform.position, way[WayIndex].transform.position) < 0.3f)
         {
-            wayIndex++;
+            WayIndex++;
+        }
+        if (WayIndex == way.Count)
+        {
+            Destroy(gameObject);
         }
 
-        if (wayIndex == way.Count)
+        if (Health <= 0)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        Health -= damage;
+        HealthUI.text = Health.ToString();
     }
 }
