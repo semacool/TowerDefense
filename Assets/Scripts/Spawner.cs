@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Спавнер врагов
+/// </summary>
 public class Spawner : MonoBehaviour
 {
 
@@ -13,7 +14,7 @@ public class Spawner : MonoBehaviour
     /// <summary>
     /// Количество
     /// </summary>
-    [SerializeField] int Count = 1;
+    public int Count = 1;
     /// <summary>
     /// Раз в минуту
     /// </summary>
@@ -35,12 +36,9 @@ public class Spawner : MonoBehaviour
             if (Count < 1)
             {
                 StopAllCoroutines();
+                yield return new WaitForEndOfFrame();
             }
-            else if (StartTime > Time.time)
-            {
-                Debug.Log(Time.time);
-            }
-            else
+            if(StartTime < Time.timeSinceLevelLoad)
             {
                 Count--;
                 Instantiate(enemy,transform);

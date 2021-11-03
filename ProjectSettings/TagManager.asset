@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Way
   - Enemy
+  - Info
+  - Spawner
   layers:
   - Default
   - TransparentFX
